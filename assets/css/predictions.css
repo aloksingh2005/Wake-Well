@@ -13,19 +13,19 @@
 .confidence-badge {
     font-size: 0.9rem;
     padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--border-radius-full);
-    background: var(--success-light);
-    color: var(--success-dark);
+    border-radius: var(--border-radius-md);
+    background: rgba(80, 227, 194, 0.2);
+    color: var(--secondary-color);
 }
 
 .confidence-badge.medium {
-    background: var(--warning-light);
-    color: var(--warning-dark);
+    background: rgba(227, 194, 80, 0.2);
+    color: var(--warning-color);
 }
 
 .confidence-badge.low {
-    background: var(--error-light);
-    color: var(--error-dark);
+    background: rgba(227, 80, 80, 0.2);
+    color: var(--danger-color);
 }
 
 .prediction-stats {
@@ -38,7 +38,7 @@
 .prediction-stat {
     text-align: center;
     padding: var(--spacing-md);
-    background: var(--background-secondary);
+    background: var(--bg-secondary);
     border-radius: var(--border-radius-lg);
     transition: transform 0.2s ease;
 }
@@ -60,15 +60,15 @@
 }
 
 .quality-value {
-    color: var(--success);
+    color: var(--success-color);
 }
 
 .quality-value.fair {
-    color: var(--warning);
+    color: var(--warning-color);
 }
 
 .quality-value.poor {
-    color: var(--error);
+    color: var(--danger-color);
 }
 
 .prediction-insights {
@@ -81,21 +81,21 @@
     gap: var(--spacing-sm);
     padding: var(--spacing-sm);
     margin-bottom: var(--spacing-sm);
-    background: var(--background-secondary);
+    background: var(--bg-secondary);
     border-radius: var(--border-radius-md);
     animation: fadeIn 0.3s ease;
 }
 
 .insight-card.positive {
-    border-left: 4px solid var(--success);
+    border-left: 4px solid var(--success-color);
 }
 
 .insight-card.negative {
-    border-left: 4px solid var(--error);
+    border-left: 4px solid var(--danger-color);
 }
 
 .insight-card.neutral {
-    border-left: 4px solid var(--info);
+    border-left: 4px solid var(--accent);
 }
 
 .insight-icon {
@@ -119,7 +119,7 @@
 .prediction-tips {
     margin-top: var(--spacing-lg);
     padding-top: var(--spacing-md);
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border);
 }
 
 .tip-card {

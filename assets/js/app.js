@@ -1,6 +1,9 @@
-// WakeWell App - Main JavaScript File
-import { loadingManager, withLoading } from './utils/loading.js';
-import { toast } from './utils/toast.js';
+/**
+ * WakeWell - Main Application Script
+ * Handles common functionality across all pages
+ */
+import loadingManager from './utils/loading.js';
+import toastManager from './utils/toast.js';
 import { notificationManager } from './notifications.js';
 import { SleepHistory } from './components/SleepHistory.js';
 import { ThemeManager } from './utils/theme.js';
@@ -148,11 +151,11 @@ class SleepTracker {
             // Store start time
             AppState.sleepData.startTime = new Date();
             
-            toast.success('Sleep tracking started successfully!');
+            toastManager.success('Sleep tracking started successfully!');
             
         } catch (error) {
             console.error('Error starting sleep tracking:', error);
-            toast.error('Failed to start sleep tracking. ' + (error.message || 'Please check permissions.'));
+            toastManager.error('Failed to start sleep tracking. ' + (error.message || 'Please check permissions.'));
         } finally {
             loadingManager.hide();
         }
@@ -179,10 +182,10 @@ class SleepTracker {
             // Update sleep history when tracking stops
             updateSleepHistory();
             
-            toast.success('Sleep tracking stopped. Your sleep data has been saved.');
+            toastManager.success('Sleep tracking stopped. Your sleep data has been saved.');
         } catch (error) {
             console.error('Error stopping sleep tracking:', error);
-            toast.error('Error saving sleep data: ' + (error.message || 'Please try again.'));
+            toastManager.error('Error saving sleep data: ' + (error.message || 'Please try again.'));
         } finally {
             loadingManager.hide();
         }
@@ -287,12 +290,12 @@ class SleepTracker {
             this.updateUI();
             
             // Show success message
-            toast.success('Sleep data saved successfully!');
+            toastManager.success('Sleep data saved successfully!');
             
             return AppState.sleepData;
         } catch (error) {
             console.error('Error calculating sleep score:', error);
-            toast.error('Failed to calculate sleep score');
+            toastManager.error('Failed to calculate sleep score');
             throw error;
         } finally {
             loadingManager.hide();
@@ -531,52 +534,69 @@ class App {
 
     async initializeApp() {
         try {
+            // Show loading overlay during initialization
             loadingManager.show();
             
             // Initialize components
-            this.themeManager.initialize();
+            await this.initializeComponents();
             
-            // Set up sleep tracking button
-            elements.startSleepBtn.addEventListener('click', async () => {
-                try {
-                    if (this.sleepTracker.isTracking) {
-                        await this.sleepTracker.stopTracking();
-                    } else {
-                        await this.sleepTracker.startTracking();
-                    }
-                } catch (error) {
-                    console.error('Error in sleep tracking:', error);
-                    toast.error('An error occurred during sleep tracking');
-                }
-            });
+            // Register service worker for PWA functionality
+            this.registerServiceWorker();
             
-            // Set default alarm
-            this.alarmManager.setAlarm('06:30', true);
+            // Hide loading overlay when done
+            loadingManager.hide();
             
-            // Initial render of sleep history
-            updateSleepHistory();
-            
-            // Initialize and update streak
-            this.sleepStreak.updateUI();
-            
-            // Update streak when new sleep data is added
-            document.addEventListener('sleepDataUpdated', (event) => {
-                if (event.detail && event.detail.sleepData) {
-                    this.sleepStreak.updateStreak(event.detail.sleepData);
-                }
-            });
-            
+            // Show welcome message
+            this.showWelcomeMessage();
         } catch (error) {
             console.error('Error initializing app:', error);
-            toast.error('Failed to initialize the app');
-        } finally {
+            toastManager.error('Failed to initialize app. Please refresh the page.');
             loadingManager.hide();
         }
     }
+
+    async initializeComponents() {
+        // Initialize any common components here
+        return new Promise(resolve => {
+            // Simulate component initialization
+            setTimeout(resolve, 500);
+        });
+    }
+
+    registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    }
+
+    showWelcomeMessage() {
+        // Only show welcome message on first visit or after updates
+        const lastVisit = localStorage.getItem('lastVisit');
+        const now = new Date().toISOString();
+        
+        if (!lastVisit) {
+            toastManager.success('Welcome to WakeWell!');
+        }
+        
+        localStorage.setItem('lastVisit', now);
+    }
 }
 
-// Initialize app
-const app = new App();
+// Initialize the app
+document.addEventListener('DOMContentLoaded', () => {
+    window.wakeWellApp = new App();
+});
+
+// Export app for potential use in other modules
+export default App;
 
 // Make theme manager globally available
 window.themeManager = themeManager;
@@ -588,24 +608,6 @@ function updateSleepHistory() {
         container.innerHTML = '';
         container.appendChild(sleepHistory.render());
     }
-}
-
-// Initialize the app when the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    app.initializeApp();
-});
-
-// Service Worker Registration
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then(registration => {
-                console.log('ServiceWorker registration successful');
-            })
-            .catch(error => {
-                console.error('ServiceWorker registration failed:', error);
-            });
-    });
 }
 
 // Event Listeners

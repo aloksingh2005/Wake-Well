@@ -4,7 +4,7 @@
     border-radius: var(--border-radius-lg);
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-md);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow);
     animation: slideIn 0.3s ease;
 }
 
@@ -36,7 +36,7 @@
     align-items: center;
     justify-content: space-between;
     padding: var(--spacing-md);
-    background: var(--background-secondary);
+    background: var(--bg-secondary);
     border-radius: var(--border-radius-md);
     transition: transform 0.2s ease;
 }
@@ -68,11 +68,11 @@
 }
 
 .explanation-icon {
-    color: var(--accent-color);
+    color: var(--secondary-color);
 }
 
 .apply-tag-btn {
-    background: var(--primary-color);
+    background: var(--accent);
     color: white;
     border: none;
     padding: var(--spacing-sm) var(--spacing-md);
@@ -82,7 +82,7 @@
 }
 
 .apply-tag-btn:hover {
-    background: var(--primary-color-dark);
+    background: var(--accent-hover);
     transform: scale(1.05);
 }
 
@@ -156,7 +156,7 @@
     position: absolute;
     width: 10px;
     height: 10px;
-    background: var(--primary-color);
+    background: var(--accent);
     top: -10px;
     left: calc(var(--i, 0) * 10%);
     transform: rotate(var(--rotation));
@@ -164,7 +164,7 @@
 }
 
 .confetti-piece:nth-child(2n) {
-    background: var(--accent-color);
+    background: var(--secondary-color);
 }
 
 .confetti-piece:nth-child(3n) {
@@ -190,7 +190,7 @@
 }
 
 .correlation-card {
-    background: var(--background-secondary);
+    background: var(--bg-secondary);
     border-radius: var(--border-radius-md);
     padding: var(--spacing-md);
     transition: transform 0.2s ease;
@@ -211,9 +211,9 @@
     margin-left: auto;
     font-size: 0.9rem;
     color: var(--text-secondary);
-    background: var(--background-tertiary);
+    background: var(--bg-secondary);
     padding: 2px 8px;
-    border-radius: var(--border-radius-full);
+    border-radius: var(--border-radius-md);
 }
 
 .correlation-impacts {
@@ -225,17 +225,17 @@
     font-size: 0.9rem;
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--border-radius-sm);
-    background: var(--background-tertiary);
+    background: var(--bg-secondary);
 }
 
 .impact-item.positive {
     color: var(--success-color);
-    background: var(--success-bg);
+    background: rgba(80, 227, 80, 0.1);
 }
 
 .impact-item.negative {
-    color: var(--error-color);
-    background: var(--error-bg);
+    color: var(--danger-color);
+    background: rgba(227, 80, 80, 0.1);
 }
 
 /* Responsive Design */

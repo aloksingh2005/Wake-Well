@@ -8,8 +8,11 @@
     <link rel="stylesheet" href="../assets/css/morning-checkin.css">
     <link rel="stylesheet" href="../assets/css/tags.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script type="module" src="../assets/js/utils/theme.js"></script>
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../assets/icons/icon-192x192.png">
+    <meta name="theme-color" content="#4299e1">
     <script type="module" src="../assets/js/components/SharedHeader.js"></script>
+    <script type="module" src="../assets/js/utils/theme.js"></script>
 </head>
 <body>
     <div class="loading-overlay" id="loadingOverlay">
@@ -19,48 +22,7 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <div class="app-container">
-        <nav class="main-nav">
-            <div class="nav-brand">WakeWell</div>
-            <div class="nav-controls">
-                <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">
-                    <span></span>
-                </button>
-            </div>
-            <div class="nav-links" style="left: -100%;">
-                <div class="nav-header">
-                    <div class="nav-brand">WakeWell</div>
-                    <button class="close-menu" aria-label="Close menu">×</button>
-                </div>
-                <div class="nav-items">
-                    <a href="/" class="nav-item">
-                        <span class="nav-icon">🏠</span>
-                        <span class="nav-text">Home</span>
-                    </a>
-                    <a href="/pages/alarm.html" class="nav-item">
-                        <span class="nav-icon">⏰</span>
-                        <span class="nav-text">Alarm</span>
-                    </a>
-                    <a href="/pages/tracking.html" class="nav-item">
-                        <span class="nav-icon">😴</span>
-                        <span class="nav-text">Sleep</span>
-                    </a>
-                    <a href="/pages/reports.html" class="nav-item">
-                        <span class="nav-icon">📊</span>
-                        <span class="nav-text">Reports</span>
-                    </a>
-                    <a href="/pages/settings.html" class="nav-item">
-                        <span class="nav-icon">⚙️</span>
-                        <span class="nav-text">Settings</span>
-                    </a>
-                </div>
-                <div class="theme-toggle-container">
-                    <button id="themeToggle" class="theme-toggle" aria-label="Toggle light/dark theme">
-                        <span class="theme-icon">🌙</span>
-                        <span class="theme-text">Toggle Theme</span>
-                    </button>
-                </div>
-            </div>
-        </nav>
+        <!-- Navigation will be inserted by SharedHeader.js -->
 
         <main class="main-content">
             <section class="morning-checkin-card">
@@ -177,9 +139,6 @@
     <!-- Utils -->
     <script type="module" src="../assets/js/utils/loading.js"></script>
     <script type="module" src="../assets/js/utils/toast.js"></script>
-    
-    <!-- Components -->
-    <script type="module" src="../assets/js/components/SharedHeader.js"></script>
     
     <!-- Morning Check-in Logic -->
     <script type="module" src="../assets/js/morning-checkin.js"></script>

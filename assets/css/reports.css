@@ -10,22 +10,22 @@
 .range-btn {
     flex: 1;
     padding: var(--spacing-sm) var(--spacing-md);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
     border-radius: var(--border-radius-md);
-    background: var(--background-color);
+    background: var(--bg-secondary);
     color: var(--text-primary);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .range-btn:hover {
-    background: var(--hover-color);
+    background: var(--bg-secondary);
 }
 
 .range-btn.active {
-    background: var(--primary-color);
+    background: var(--accent);
     color: white;
-    border-color: var(--primary-color);
+    border-color: var(--accent);
 }
 
 /* Overview Stats */
@@ -39,20 +39,20 @@
 .stat-item {
     text-align: center;
     padding: var(--spacing-md);
-    background: var(--background-color);
+    background: var(--bg-secondary);
     border-radius: var(--border-radius-md);
     transition: all 0.3s ease;
 }
 
 .stat-item:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow);
 }
 
 .stat-value {
     font-size: 1.8rem;
     font-weight: bold;
-    color: var(--primary-color);
+    color: var(--accent);
     margin-bottom: var(--spacing-xs);
 }
 
@@ -99,7 +99,7 @@ canvas {
     display: flex;
     align-items: flex-start;
     padding: var(--spacing-md);
-    background: var(--background-color);
+    background: var(--bg-secondary);
     border-radius: var(--border-radius-md);
     transition: all 0.3s ease;
 }
@@ -110,7 +110,7 @@ canvas {
 }
 
 .insight-card {
-    background: var(--background-secondary);
+    background: var(--bg-secondary);
     padding: var(--spacing-md);
     border-radius: var(--border-radius-md);
     display: flex;
@@ -121,7 +121,7 @@ canvas {
 .insight-icon {
     font-size: 1.5rem;
     margin-right: var(--spacing-md);
-    color: var(--primary-color);
+    color: var(--accent);
 }
 
 .insight-content h3 {
@@ -152,8 +152,8 @@ canvas {
     justify-content: center;
     gap: var(--spacing-sm);
     padding: var(--spacing-md);
-    background: var(--background-color);
-    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
     border-radius: var(--border-radius-md);
     color: var(--text-primary);
     cursor: pointer;
@@ -161,7 +161,7 @@ canvas {
 }
 
 .export-btn:hover {
-    background: var(--hover-color);
+    background: var(--bg-secondary);
     transform: translateY(-2px);
 }
 
@@ -171,10 +171,10 @@ canvas {
 
 /* Reports Card */
 .reports-card {
-    background: var(--card-background);
+    background: var(--card-bg);
     border-radius: var(--border-radius-lg);
     padding: var(--spacing-lg);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow);
     margin-bottom: var(--spacing-md);
 }
 
@@ -216,11 +216,11 @@ canvas {
 }
 
 .sleep-dot {
-    background-color: var(--primary-color);
+    background-color: var(--accent);
 }
 
 .wake-dot {
-    background-color: var(--accent-color);
+    background-color: var(--secondary-color);
 }
 
 /* Calendar Section */
@@ -246,7 +246,7 @@ canvas {
 }
 
 .calendar-nav-btn:hover {
-    background: var(--background-secondary);
+    background: var(--bg-secondary);
 }
 
 .calendar-grid {
@@ -278,7 +278,7 @@ canvas {
     border-radius: var(--border-radius-sm);
     cursor: pointer;
     transition: transform 0.2s ease;
-    background: var(--background-secondary);
+    background: var(--bg-secondary);
 }
 
 .calendar-day:hover {
@@ -320,7 +320,7 @@ canvas {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: var(--background-primary);
+    background: var(--bg-primary);
     padding: var(--spacing-lg);
     border-radius: var(--border-radius-lg);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -354,7 +354,7 @@ canvas {
 .clear-filters-btn {
     background: none;
     border: none;
-    color: var(--accent-color);
+    color: var(--accent);
     font-size: 0.9rem;
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--border-radius-sm);
@@ -365,7 +365,7 @@ canvas {
 
 .clear-filters-btn:not([disabled]):hover {
     opacity: 1;
-    background: var(--background-secondary);
+    background: var(--bg-secondary);
 }
 
 .clear-filters-btn[disabled] {
@@ -387,9 +387,9 @@ canvas {
     align-items: center;
     gap: var(--spacing-xs);
     padding: var(--spacing-xs) var(--spacing-sm);
-    background: var(--primary-color);
+    background: var(--accent);
     color: white;
-    border-radius: var(--border-radius-full);
+    border-radius: var(--border-radius-md);
     font-size: 0.9rem;
     animation: scaleIn 0.2s ease;
 }
@@ -421,8 +421,8 @@ canvas {
     align-items: center;
     gap: var(--spacing-xs);
     padding: var(--spacing-xs) var(--spacing-sm);
-    background: var(--background-secondary);
-    border-radius: var(--border-radius-full);
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-md);
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -430,7 +430,7 @@ canvas {
 
 .tag-option:hover {
     transform: translateY(-1px);
-    background: var(--background-tertiary);
+    background: var(--bg-secondary);
 }
 
 .filter-info {
@@ -442,7 +442,7 @@ canvas {
 /* Filtered Chart Styles */
 .reports-card.filtered {
     position: relative;
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--accent);
     animation: highlightBorder 0.3s ease;
 }
 
@@ -451,7 +451,7 @@ canvas {
     top: -10px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--primary-color);
+    background: var(--accent);
     color: white;
     padding: 2px 8px;
     border-radius: var(--border-radius-sm);
@@ -485,7 +485,7 @@ canvas {
         border-color: transparent;
     }
     to {
-        border-color: var(--primary-color);
+        border-color: var(--accent);
     }
 }
 
@@ -539,7 +539,7 @@ canvas {
     }
 
     .calendar-day {
-        padding: var(--spacing-xxs);
+        padding: var(--spacing-xs);
     }
 
     .day-number {

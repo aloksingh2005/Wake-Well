@@ -9,6 +9,11 @@ export class SharedHeader {
     }
 
     createNav() {
+        // Get current theme for initial icon
+        const currentTheme = localStorage.getItem('theme') || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const themeIcon = currentTheme === 'dark' ? '🌙' : '☀️';
+        
         // Create overlay for mobile menu
         const overlay = document.createElement('div');
         overlay.className = 'nav-overlay';
@@ -21,6 +26,9 @@ export class SharedHeader {
         nav.innerHTML = `
             <div class="nav-brand">WakeWell</div>
             <div class="nav-controls">
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle light/dark theme">
+                    <span class="theme-icon">${themeIcon}</span>
+                </button>
                 <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">
                     <span></span>
                 </button>
@@ -53,8 +61,8 @@ export class SharedHeader {
                     </a>
                 </div>
                 <div class="theme-toggle-container">
-                    <button id="themeToggle" class="theme-toggle" aria-label="Toggle light/dark theme">
-                        <span class="theme-icon">🌙</span>
+                    <button id="themeToggleMobile" class="theme-toggle" aria-label="Toggle light/dark theme">
+                        <span class="theme-icon">${themeIcon}</span>
                         <span class="theme-text">Toggle Theme</span>
                     </button>
                 </div>

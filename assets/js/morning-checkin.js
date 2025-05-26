@@ -1,302 +1,321 @@
-import { showToast } from './utils/toast.js';
-import { showLoading, hideLoading } from './utils/loading.js';
-import { TagSuggestions } from './components/TagSuggestions.js';
-import { EventTypes } from './utils/events.js';
-import { TagSuggestions } from './components/TagSuggestions.js';
-import { EventTypes } from './utils/events.js';
+/**
+ * WakeWell - Morning Check-in Page Script
+ * Handles morning check-in functionality
+ */
+import loadingManager from './utils/loading.js';
+import toastManager from './utils/toast.js';
 
-class MorningCheckin {
+class MorningCheckinPage {
     constructor() {
-        this.elements = {
-            moodButtons: document.querySelectorAll('.mood-btn'),
-            starButtons: document.querySelectorAll('.star-btn'),
-            tagButtons: document.querySelectorAll('.tag-btn'),
-            journalNotes: document.getElementById('journalNotes'),
-            charCount: document.querySelector('.char-count'),
-            recordButton: document.getElementById('recordVoiceNote'),
-            voiceStatus: document.getElementById('voiceNoteStatus'),
-            saveButton: document.getElementById('saveCheckin'),
-            skipButton: document.getElementById('skipCheckin'),
-            sleepStats: document.querySelector('.sleep-stats')
-        };
-
-        this.state = {
-            selectedMood: null,
-            sleepRating: 0,
-            selectedTags: new Set(),
-            voiceNote: null,
-            mediaRecorder: null,
-            isRecording: false
-        };
-
-        this.tagSuggestions = new TagSuggestions();
-
-        this.initialize();
+        this.selectedMood = null;
+        this.selectedRating = 0;
+        this.selectedTags = [];
+        
+        this.initializeElements();
+        this.initializeEventListeners();
+        this.loadSleepSummary();
     }
 
-    initialize() {
-        this.loadLastNightSleepData();
-        this.setupEventListeners();
-        this.setupVoiceRecording();
-        this.updateUI();
-        this.initializeTagSystem();
+    initializeElements() {
+        // Mood buttons
+        this.moodButtons = document.querySelectorAll('.mood-btn');
+        
+        // Star rating
+        this.starButtons = document.querySelectorAll('.star-btn');
+        this.ratingLabel = document.querySelector('.rating-label');
+        
+        // Tags
+        this.tagButtons = document.querySelectorAll('.tag-btn');
+        
+        // Journal
+        this.journalNotes = document.getElementById('journalNotes');
+        this.charCount = document.querySelector('.char-count');
+        
+        // Voice note
+        this.recordVoiceButton = document.getElementById('recordVoiceNote');
+        this.voiceNoteStatus = document.getElementById('voiceNoteStatus');
+        
+        // Action buttons
+        this.saveButton = document.getElementById('saveCheckin');
+        this.skipButton = document.getElementById('skipCheckin');
+        
+        // Sleep stats
+        this.sleepStats = document.querySelector('.sleep-stats');
     }
 
-    initializeTagSystem() {
-        const container = document.getElementById('tagSuggestions');
-        this.tagSuggestions.createUI(container);
-
-        // Listen for tag applications
-        document.addEventListener(EventTypes.TAG_APPLIED, (event) => {
-            const { tag } = event.detail;
-            this.addTagToJournal(tag);
-        });
-    }
-
-    addTagToJournal(tag) {
-        const tagsList = document.getElementById('appliedTagsList');
-        const tagEl = document.createElement('div');
-        tagEl.className = 'journal-tag';
-        tagEl.innerHTML = `
-            <span class="tag-emoji">${tag.emoji}</span>
-            <span class="tag-name">${tag.name}</span>
-            <button class="remove-tag" data-tag-id="${tag.id}">×</button>
-        `;
-        tagsList.appendChild(tagEl);
-
-        // Add to journal data
-        if (!this.journalData.tags) {
-            this.journalData.tags = [];
-        }
-        this.journalData.tags.push(tag);
-    }
-
-    async loadLastNightSleepData() {
-        try {
-            const sleepHistory = JSON.parse(localStorage.getItem('sleepHistory') || '[]');
-            const lastSleep = sleepHistory[sleepHistory.length - 1];
-
-            if (lastSleep) {
-                this.elements.sleepStats.innerHTML = `
-                    <div class="stat">
-                        <span class="label">Duration</span>
-                        <span class="value">${this.formatDuration(lastSleep.duration)}</span>
-                    </div>
-                    <div class="stat">
-                        <span class="label">Quality</span>
-                        <span class="value">${this.formatQuality(lastSleep.quality)}</span>
-                    </div>
-                    <div class="stat">
-                        <span class="label">Disturbances</span>
-                        <span class="value">${lastSleep.disturbances}</span>
-                    </div>
-                `;
-            }
-        } catch (error) {
-            console.error('Error loading sleep data:', error);
-        }
-    }
-
-    setupEventListeners() {
+    initializeEventListeners() {
         // Mood selection
-        this.elements.moodButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                this.elements.moodButtons.forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                this.state.selectedMood = {
-                    mood: btn.dataset.mood,
-                    emoji: btn.dataset.emoji
-                };
+        this.moodButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                this.moodButtons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                this.selectedMood = button.dataset.mood;
             });
         });
-
+        
         // Star rating
-        this.elements.starButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const rating = parseInt(btn.dataset.rating);
-                this.state.sleepRating = rating;
+        this.starButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                this.selectedRating = index + 1;
                 this.updateStarRating();
             });
+            
+            // Add hover effect
+            button.addEventListener('mouseenter', () => {
+                this.updateStarRating(index + 1, false);
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                this.updateStarRating(this.selectedRating, false);
+            });
         });
-
+        
         // Tags
-        this.elements.tagButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.classList.toggle('selected');
-                const tag = btn.dataset.tag;
-                if (this.state.selectedTags.has(tag)) {
-                    this.state.selectedTags.delete(tag);
+        this.tagButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                button.classList.toggle('selected');
+                
+                const tag = button.dataset.tag;
+                if (button.classList.contains('selected')) {
+                    this.selectedTags.push(tag);
                 } else {
-                    this.state.selectedTags.add(tag);
+                    this.selectedTags = this.selectedTags.filter(t => t !== tag);
                 }
             });
         });
-
-        // Journal notes character count
-        this.elements.journalNotes.addEventListener('input', () => {
-            const length = this.elements.journalNotes.value.length;
-            this.elements.charCount.textContent = `${length}/500`;
-        });
-
-        // Save check-in
-        this.elements.saveButton.addEventListener('click', () => this.saveCheckin());
         
-        // Skip check-in
-        this.elements.skipButton.addEventListener('click', () => this.skipCheckin());
+        // Journal character count
+        this.journalNotes.addEventListener('input', () => {
+            const count = this.journalNotes.value.length;
+            this.charCount.textContent = `${count}/500`;
+        });
+        
+        // Voice note recording
+        this.recordVoiceButton.addEventListener('click', () => {
+            this.toggleVoiceRecording();
+        });
+        
+        // Save button
+        this.saveButton.addEventListener('click', () => {
+            this.saveCheckin();
+        });
+        
+        // Skip button
+        this.skipButton.addEventListener('click', () => {
+            this.skipCheckin();
+        });
     }
 
-    async setupVoiceRecording() {
+    loadSleepSummary() {
         try {
+            loadingManager.show();
+            
+            // Get last sleep session from localStorage
+            const sleepHistory = JSON.parse(localStorage.getItem('sleepHistory') || '[]');
+            const lastSleep = sleepHistory[sleepHistory.length - 1];
+            
+            if (lastSleep && this.sleepStats) {
+                // Create sleep summary HTML
+                const durationHours = Math.floor(lastSleep.duration / 3600);
+                const durationMinutes = Math.floor((lastSleep.duration % 3600) / 60);
+                
+                const summaryHTML = `
+                    <div class="sleep-stat">
+                        <div class="stat-label">Duration</div>
+                        <div class="stat-value">${durationHours}h ${durationMinutes}m</div>
+                    </div>
+                    <div class="sleep-stat">
+                        <div class="stat-label">Quality</div>
+                        <div class="stat-value">${lastSleep.quality}%</div>
+                    </div>
+                    <div class="sleep-stat">
+                        <div class="stat-label">Movements</div>
+                        <div class="stat-value">${lastSleep.movements}</div>
+                    </div>
+                `;
+                
+                this.sleepStats.innerHTML = summaryHTML;
+            } else {
+                // No sleep data
+                if (this.sleepStats) {
+                    this.sleepStats.innerHTML = '<p>No sleep data available from last night</p>';
+                }
+            }
+            
+            loadingManager.hide();
+        } catch (error) {
+            console.error('Error loading sleep summary:', error);
+            toastManager.error('Failed to load sleep summary');
+            loadingManager.hide();
+        }
+    }
+
+    updateStarRating(rating = this.selectedRating, updateLabel = true) {
+        // Update star buttons
+        this.starButtons.forEach((button, index) => {
+            if (index < rating) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+        
+        // Update label
+        if (updateLabel) {
+            const labels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+            this.ratingLabel.textContent = rating > 0 ? labels[rating] : 'Tap to rate';
+        }
+    }
+
+    toggleVoiceRecording() {
+        if (this.isRecording) {
+            this.stopVoiceRecording();
+        } else {
+            this.startVoiceRecording();
+        }
+    }
+
+    async startVoiceRecording() {
+        try {
+            // Check if browser supports recording
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                this.elements.recordButton.style.display = 'none';
+                toastManager.error('Voice recording is not supported in your browser');
                 return;
             }
-
-            this.elements.recordButton.addEventListener('click', () => {
-                if (this.state.isRecording) {
-                    this.stopRecording();
-                } else {
-                    this.startRecording();
-                }
-            });
-        } catch (error) {
-            console.error('Voice recording not supported:', error);
-            this.elements.recordButton.style.display = 'none';
-        }
-    }
-
-    async startRecording() {
-        try {
+            
+            // Request microphone permission
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            this.state.mediaRecorder = new MediaRecorder(stream);
-            const audioChunks = [];
-
-            this.state.mediaRecorder.addEventListener('dataavailable', event => {
-                audioChunks.push(event.data);
+            
+            // Create media recorder
+            this.mediaRecorder = new MediaRecorder(stream);
+            this.audioChunks = [];
+            
+            // Set up event handlers
+            this.mediaRecorder.addEventListener('dataavailable', event => {
+                this.audioChunks.push(event.data);
             });
-
-            this.state.mediaRecorder.addEventListener('stop', () => {
-                const audioBlob = new Blob(audioChunks);
-                this.state.voiceNote = audioBlob;
-                this.elements.voiceStatus.textContent = '🎵 Voice note recorded';
+            
+            this.mediaRecorder.addEventListener('stop', () => {
+                // Create audio blob
+                const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
+                this.audioUrl = URL.createObjectURL(audioBlob);
+                
+                // Update UI
+                this.voiceNoteStatus.innerHTML = `
+                    <div class="voice-note-preview">
+                        <audio controls src="${this.audioUrl}"></audio>
+                    </div>
+                `;
+                
+                // Stop all tracks
+                stream.getTracks().forEach(track => track.stop());
             });
-
-            this.state.mediaRecorder.start();
-            this.state.isRecording = true;
-            this.elements.recordButton.classList.add('recording');
-            this.elements.recordButton.textContent = '⏹️ Stop Recording';
-            this.elements.voiceStatus.textContent = '🎤 Recording...';
+            
+            // Start recording
+            this.mediaRecorder.start();
+            this.isRecording = true;
+            
+            // Update UI
+            this.recordVoiceButton.textContent = '🛑 Stop Recording';
+            this.recordVoiceButton.classList.add('recording');
+            this.voiceNoteStatus.textContent = 'Recording...';
+            
+            // Automatically stop after 30 seconds
+            this.recordingTimeout = setTimeout(() => {
+                if (this.isRecording) {
+                    this.stopVoiceRecording();
+                }
+            }, 30000);
+            
+            toastManager.success('Recording started');
         } catch (error) {
-            console.error('Error starting recording:', error);
-            showToast('Could not start recording', 'error');
+            console.error('Error starting voice recording:', error);
+            toastManager.error('Could not start recording');
         }
     }
 
-    stopRecording() {
-        if (this.state.mediaRecorder) {
-            this.state.mediaRecorder.stop();
-            this.state.isRecording = false;
-            this.elements.recordButton.classList.remove('recording');
-            this.elements.recordButton.textContent = '🎤 Record Voice Note';
-        }
+    stopVoiceRecording() {
+        if (!this.isRecording || !this.mediaRecorder) return;
+        
+        // Stop recording
+        this.mediaRecorder.stop();
+        this.isRecording = false;
+        
+        // Clear timeout
+        clearTimeout(this.recordingTimeout);
+        
+        // Update UI
+        this.recordVoiceButton.textContent = '🎤 Record Voice Note';
+        this.recordVoiceButton.classList.remove('recording');
+        
+        toastManager.success('Recording saved');
     }
 
-    updateStarRating() {
-        this.elements.starButtons.forEach((btn, index) => {
-            if (index < this.state.sleepRating) {
-                btn.classList.add('selected');
-            } else {
-                btn.classList.remove('selected');
-            }
-        });
-
-        const labels = ['Very Poor', 'Poor', 'Fair', 'Good', 'Excellent'];
-        this.elements.starButtons[0].parentElement.nextElementSibling.textContent = 
-            this.state.sleepRating ? labels[this.state.sleepRating - 1] : 'Tap to rate';
-    }
-
-    async saveCheckin() {
-        if (!this.state.selectedMood || !this.state.sleepRating) {
-            showToast('Please select your mood and rate your sleep', 'error');
-            return;
-        }
-
-        showLoading('Saving your check-in...');
-
+    saveCheckin() {
         try {
-            const checkin = {
-                date: new Date().toISOString(),
-                mood: this.state.selectedMood,
-                sleepRating: this.state.sleepRating,
-                tags: Array.from(this.state.selectedTags),
-                notes: this.elements.journalNotes.value,
-                hasVoiceNote: !!this.state.voiceNote
-            };
-
-            // Save check-in data
-            let journalData = JSON.parse(localStorage.getItem('sleepJournal') || '[]');
-            journalData.push(checkin);
-            localStorage.setItem('sleepJournal', JSON.stringify(journalData));
-
-            // Save voice note if exists
-            if (this.state.voiceNote) {
-                const reader = new FileReader();
-                reader.readAsDataURL(this.state.voiceNote);
-                reader.onloadend = () => {
-                    let voiceNotes = JSON.parse(localStorage.getItem('voiceNotes') || '[]');
-                    voiceNotes.push({
-                        date: checkin.date,
-                        audio: reader.result
-                    });
-                    localStorage.setItem('voiceNotes', JSON.stringify(voiceNotes));
-                };
+            loadingManager.show();
+            
+            // Validate input
+            if (!this.selectedMood) {
+                toastManager.warning('Please select your mood');
+                loadingManager.hide();
+                return;
             }
-
-            showToast('Check-in saved successfully!', 'success');
+            
+            if (this.selectedRating === 0) {
+                toastManager.warning('Please rate your sleep quality');
+                loadingManager.hide();
+                return;
+            }
+            
+            // Create check-in data
+            const checkinData = {
+                date: new Date().toISOString(),
+                mood: this.selectedMood,
+                rating: this.selectedRating,
+                tags: this.selectedTags,
+                notes: this.journalNotes.value,
+                hasVoiceNote: !!this.audioUrl
+            };
+            
+            // If we have a voice note, convert to base64
+            if (this.audioUrl) {
+                // In a real app, you would upload this or store it properly
+                // For this demo, we'll just note that it exists
+                checkinData.voiceNote = true;
+            }
+            
+            // Get existing check-in history
+            const checkinHistory = JSON.parse(localStorage.getItem('checkinHistory') || '[]');
+            
+            // Add new entry
+            checkinHistory.push(checkinData);
+            
+            // Save back to localStorage
+            localStorage.setItem('checkinHistory', JSON.stringify(checkinHistory));
+            
+            toastManager.success('Morning check-in saved');
+            
+            // Redirect to home page after a delay
             setTimeout(() => {
-                window.location.href = 'reports.html';
+                window.location.href = '/';
             }, 1500);
         } catch (error) {
             console.error('Error saving check-in:', error);
-            showToast('Failed to save check-in', 'error');
-        } finally {
-            hideLoading();
+            toastManager.error('Failed to save check-in');
+            loadingManager.hide();
         }
     }
 
     skipCheckin() {
-        if (confirm('Are you sure you want to skip the morning check-in?')) {
-            window.location.href = 'index.html';
-        }
-    }
-
-    formatDuration(hours) {
-        const h = Math.floor(hours);
-        const m = Math.round((hours - h) * 60);
-        return `${h}h ${m}m`;
-    }
-
-    formatQuality(score) {
-        if (score >= 90) return 'Excellent';
-        if (score >= 70) return 'Good';
-        if (score >= 50) return 'Fair';
-        return 'Poor';
-    }
-
-    async processSleepData() {
-        // ...existing sleep data processing...
+        toastManager.info('Check-in skipped');
         
-        // Get sleep history for context
-        const sleepHistory = JSON.parse(localStorage.getItem('sleepHistory') || '[]');
-        
-        // Show tag suggestions based on sleep data
-        this.tagSuggestions.showSuggestions(this.sleepData, sleepHistory);
-        
-        // ...rest of the existing code...
+        // Redirect to home page
+        window.location.href = '/';
     }
 }
 
-// Initialize morning check-in
+// Initialize morning check-in page when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    const morningCheckin = new MorningCheckin();
+    window.morningCheckinPage = new MorningCheckinPage();
 });

@@ -28,14 +28,14 @@
 .indicator {
     text-align: center;
     padding: var(--spacing-md);
-    background-color: var(--background-color);
+    background-color: var(--bg-secondary);
     border-radius: var(--border-radius-md);
     transition: all 0.3s ease;
 }
 
 .indicator:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow);
 }
 
 .indicator-icon {
@@ -73,7 +73,7 @@
     display: flex;
     align-items: flex-start;
     padding: var(--spacing-md);
-    background-color: var(--background-color);
+    background-color: var(--bg-secondary);
     border-radius: var(--border-radius-md);
     transition: all 0.3s ease;
 }
@@ -102,10 +102,10 @@
 
 /* Tracking Card */
 .tracking-card {
-    background-color: var(--card-background);
+    background-color: var(--card-bg);
     border-radius: var(--border-radius-lg);
     padding: var(--spacing-lg);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow);
     margin-bottom: var(--spacing-md);
 }
 
@@ -117,7 +117,7 @@
 
 /* Active Tracking State */
 .tracking-active .timer-display {
-    color: var(--primary-color);
+    color: var(--accent);
 }
 
 .tracking-active .timer-status {

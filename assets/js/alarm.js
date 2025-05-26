@@ -1,6 +1,143 @@
+/**
+ * WakeWell - Alarm Page Script
+ * Handles alarm clock functionality
+ */
+import loadingManager from './utils/loading.js';
+import toastManager from './utils/toast.js';
 import { SmartAlarm } from './components/SmartAlarm.js';
-import { showToast } from './utils/toast.js';
-import { showLoading, hideLoading } from './utils/loading.js';
+
+class AlarmPage {
+    constructor() {
+        this.initializeElements();
+        this.initializeEventListeners();
+        this.loadAlarmSettings();
+    }
+
+    initializeElements() {
+        // Time picker
+        this.alarmTimeInput = document.getElementById('alarmTime');
+        
+        // Toggle switches
+        this.smartWakeToggle = document.getElementById('smartWakeToggle');
+        this.vibrationToggle = document.getElementById('vibrationToggle');
+        
+        // Sound options
+        this.soundOptions = document.querySelectorAll('.sound-option');
+        
+        // Day options
+        this.dayOptions = document.querySelectorAll('.day-option input');
+    }
+
+    initializeEventListeners() {
+        // Time change
+        this.alarmTimeInput.addEventListener('change', () => this.saveAlarmSettings());
+        
+        // Toggle switches
+        this.smartWakeToggle.addEventListener('change', () => this.saveAlarmSettings());
+        this.vibrationToggle.addEventListener('change', () => this.saveAlarmSettings());
+        
+        // Sound options
+        this.soundOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove selected class from all options
+                this.soundOptions.forEach(opt => opt.classList.remove('selected'));
+                
+                // Add selected class to clicked option
+                option.classList.add('selected');
+                
+                // Save settings
+                this.saveAlarmSettings();
+                
+                // Play sound preview
+                this.playSound(option.dataset.sound);
+            });
+        });
+        
+        // Day options
+        this.dayOptions.forEach(day => {
+            day.addEventListener('change', () => this.saveAlarmSettings());
+        });
+    }
+
+    loadAlarmSettings() {
+        try {
+            loadingManager.show();
+            
+            // Get saved settings from localStorage
+            const settings = JSON.parse(localStorage.getItem('alarmSettings')) || {
+                time: '06:30',
+                smartWake: true,
+                vibration: true,
+                sound: 'gentle',
+                days: ['mon', 'tue', 'wed', 'thu', 'fri']
+            };
+            
+            // Apply settings to UI
+            this.alarmTimeInput.value = settings.time;
+            this.smartWakeToggle.checked = settings.smartWake;
+            this.vibrationToggle.checked = settings.vibration;
+            
+            // Set selected sound
+            this.soundOptions.forEach(option => {
+                if (option.dataset.sound === settings.sound) {
+                    option.classList.add('selected');
+                }
+            });
+            
+            // Set selected days
+            this.dayOptions.forEach(day => {
+                day.checked = settings.days.includes(day.value);
+            });
+            
+            toastManager.success('Alarm settings loaded');
+        } catch (error) {
+            console.error('Error loading alarm settings:', error);
+            toastManager.error('Failed to load alarm settings');
+        } finally {
+            loadingManager.hide();
+        }
+    }
+
+    saveAlarmSettings() {
+        try {
+            // Build settings object
+            const settings = {
+                time: this.alarmTimeInput.value,
+                smartWake: this.smartWakeToggle.checked,
+                vibration: this.vibrationToggle.checked,
+                sound: Array.from(this.soundOptions).find(opt => opt.classList.contains('selected'))?.dataset.sound || 'gentle',
+                days: Array.from(this.dayOptions).filter(day => day.checked).map(day => day.value)
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('alarmSettings', JSON.stringify(settings));
+            
+            toastManager.success('Alarm settings saved');
+        } catch (error) {
+            console.error('Error saving alarm settings:', error);
+            toastManager.error('Failed to save alarm settings');
+        }
+    }
+
+    playSound(sound) {
+        // Simple sound preview
+        const audioMap = {
+            'gentle': 'https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3',
+            'nature': 'https://assets.mixkit.co/sfx/preview/mixkit-forest-birds-ambience-1210.mp3',
+            'bell': 'https://assets.mixkit.co/sfx/preview/mixkit-classic-alarm-995.mp3',
+            'chime': 'https://assets.mixkit.co/sfx/preview/mixkit-cathedral-bells-ringing-602.mp3'
+        };
+        
+        const audio = new Audio(audioMap[sound]);
+        audio.volume = 0.5;
+        audio.play();
+    }
+}
+
+// Initialize alarm page when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.alarmPage = new AlarmPage();
+});
 
 // Get DOM elements
 const elements = {
@@ -48,11 +185,11 @@ elements.setAlarmBtn.addEventListener('click', () => {
     const isSmartWake = elements.smartWakeToggle.checked;
 
     if (!time) {
-        showToast('Please select an alarm time', 'error');
+        toastManager.error('Please select an alarm time');
         return;
     }
 
-    showLoading('Setting up alarm...');
+    loadingManager.show();
 
     try {
         const alarmInfo = smartAlarm.setAlarm(time, isSmartWake);
@@ -65,17 +202,17 @@ elements.setAlarmBtn.addEventListener('click', () => {
         // Start countdown updates
         setInterval(updateCountdown, 1000);
         
-        showToast('Alarm set successfully', 'success');
+        toastManager.success('Alarm set successfully');
         
         // If it's a smart alarm and sleep tracking isn't active, suggest starting it
         if (isSmartWake && !window.sleepTracker?.isTracking) {
-            showToast('Consider starting sleep tracking for better wake-up timing', 'info');
+            toastManager.info('Consider starting sleep tracking for better wake-up timing');
         }
     } catch (error) {
         console.error('Error setting alarm:', error);
-        showToast('Failed to set alarm', 'error');
+        toastManager.error('Failed to set alarm');
     } finally {
-        hideLoading();
+        loadingManager.hide();
     }
 });
 
@@ -87,13 +224,13 @@ elements.cancelAlarmBtn.addEventListener('click', () => {
     elements.alarmStatus.textContent = 'No alarm set';
     elements.countdownDisplay.textContent = '';
     elements.countdownDisplay.classList.remove('monitoring');
-    showToast('Alarm cancelled', 'info');
+    toastManager.info('Alarm cancelled');
 });
 
 // Event listeners for alarm events
 window.addEventListener('alarmMonitoringStarted', (event) => {
     const { windowStart } = event.detail;
-    showToast(`Smart wake monitoring will begin at ${windowStart.toLocaleTimeString()}`, 'info');
+    toastManager.info(`Smart wake monitoring will begin at ${windowStart.toLocaleTimeString()}`);
 });
 
 window.addEventListener('alarmTriggered', (event) => {

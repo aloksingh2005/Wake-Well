@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WakeWell - Smart Alarm Clock</title>
+    <title>Sleep Tracking - WakeWell</title>
     <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/tracking.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="manifest" href="../manifest.json">
     <link rel="apple-touch-icon" href="../assets/icons/icon-192x192.png">
     <meta name="theme-color" content="#4299e1">
     <script type="module" src="../assets/js/components/SharedHeader.js"></script>
     <script type="module" src="../assets/js/utils/theme.js"></script>
-
 </head>
 <body>
-
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
     </div>
     
     <div class="toast-container" id="toastContainer"></div>
 
-<main class="main-content">
+    <div class="app-container">
+        <!-- Navigation will be inserted by SharedHeader.js -->
+
+        <main class="main-content">
             <!-- Sleep Timer Card -->
             <section class="tracking-card">
                 <h2>Sleep Timer</h2>
@@ -94,8 +95,8 @@
                 </div>
             </section>
         </main>
+    </div>
 
-    <script type="module" src="../assets/js/app.js"></script>
-
+    <script type="module" src="../assets/js/tracking.js"></script>
 </body>
 </html>

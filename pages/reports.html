@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WakeWell - Smart Alarm Clock</title>    <link rel="stylesheet" href="../assets/css/main.css">
+    <title>Reports - WakeWell</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/reports.css">
     <link rel="stylesheet" href="../assets/css/tags.css">
     <link rel="stylesheet" href="../assets/css/predictions.css">
@@ -14,17 +14,18 @@
     <meta name="theme-color" content="#4299e1">
     <script type="module" src="../assets/js/components/SharedHeader.js"></script>
     <script type="module" src="../assets/js/utils/theme.js"></script>
-
 </head>
 <body>
-
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
     </div>
     
     <div class="toast-container" id="toastContainer"></div>
 
-<main class="main-content">
+    <div class="app-container">
+        <!-- Navigation will be inserted by SharedHeader.js -->
+
+        <main class="main-content">
             <!-- Time Range Selector -->
             <section class="reports-card">
                 <h2>Time Range</h2>
@@ -214,8 +215,9 @@
                 </div>
             </section>
         </main>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script type="module" src="../assets/js/reports.js"></script>
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="../assets/js/reports.js"></script>
+</body>
 </html>

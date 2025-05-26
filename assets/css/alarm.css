@@ -28,7 +28,7 @@
     display: flex;
     align-items: center;
     padding: var(--spacing-md) 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--border);
 }
 
 .setting-item:last-child {
@@ -89,7 +89,7 @@
 }
 
 input:checked + .slider {
-    background-color: var(--primary-color);
+    background-color: var(--accent);
 }
 
 input:checked + .slider:before {
@@ -110,7 +110,7 @@ input:checked + .slider:before {
     align-items: center;
     padding: var(--spacing-md);
     border-radius: var(--border-radius-md);
-    background-color: var(--background-color);
+    background-color: var(--bg-secondary);
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -120,7 +120,7 @@ input:checked + .slider:before {
 }
 
 .sound-option.selected {
-    background-color: var(--primary-color);
+    background-color: var(--accent);
     color: white;
 }
 
@@ -155,22 +155,23 @@ input:checked + .slider:before {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: var(--background-color);
+    background-color: var(--bg-secondary);
     transition: all 0.3s ease;
 }
 
 .day-option input:checked + span {
-    background-color: var(--primary-color);
+    background-color: var(--accent);
     color: white;
 }
 
 /* Alarm Settings Card */
 .alarm-settings-card {
-    background-color: var(--card-background);
+    background-color: var(--card-bg);
     border-radius: var(--border-radius-lg);
     padding: var(--spacing-lg);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow);
     margin-bottom: var(--spacing-md);
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .alarm-settings-card h2 {
