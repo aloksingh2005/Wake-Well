@@ -17,17 +17,17 @@ export class ThemeManager {
     }
 
     initialize() {
-        // Find or create theme toggle
-        this.themeToggle = document.getElementById('themeToggle');
-        this.themeIcon = document.querySelector('.theme-icon');
+        // Find all theme toggles (desktop and mobile)
+        this.themeToggles = document.querySelectorAll('#themeToggle, #themeToggleMobile');
+        this.themeIcons = document.querySelectorAll('.theme-icon');
         
         // If no toggle found in the current page, add one to the body
-        if (!this.themeToggle) {
+        if (this.themeToggles.length === 0) {
             this.addThemeToggleToBody();
+        } else {
+            this.addEventListeners();
+            this.updateThemeIcon();
         }
-        
-        this.addEventListeners();
-        this.updateThemeIcon();
     }
     
     addThemeToggleToBody() {
@@ -62,16 +62,20 @@ export class ThemeManager {
     }
 
     updateThemeIcon() {
-        if (this.themeIcon) {
-            this.themeIcon.textContent = this.theme === 'dark' ? '🌙' : '☀️';
-        }
+        this.themeIcons.forEach(icon => {
+            if (icon) {
+                icon.textContent = this.theme === 'dark' ? '🌙' : '☀️';
+            }
+        });
     }
 
     addEventListeners() {
-        // Add click event to theme toggle
-        if (this.themeToggle) {
-            this.themeToggle.addEventListener('click', () => this.toggleTheme());
-        }
+        // Add click event to all theme toggles
+        this.themeToggles.forEach(toggle => {
+            if (toggle) {
+                toggle.addEventListener('click', () => this.toggleTheme());
+            }
+        });
         
         // Listen for system theme changes
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');

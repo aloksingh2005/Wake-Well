@@ -47,33 +47,8 @@ const elements = {
     navLinks: document.querySelector('.nav-links')
 };
 
-// Theme Management
-class ThemeManager {
-    constructor() {
-        this.initialize();
-        this.addEventListeners();
-    }
-
-    initialize() {
-        document.documentElement.setAttribute('data-theme', AppState.theme);
-        this.updateThemeIcon();
-    }
-
-    toggleTheme() {
-        AppState.theme = AppState.theme === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('theme', AppState.theme);
-        document.documentElement.setAttribute('data-theme', AppState.theme);
-        this.updateThemeIcon();
-    }
-
-    updateThemeIcon() {
-        elements.themeIcon.textContent = AppState.theme === 'dark' ? '🌙' : '☀️';
-    }
-
-    addEventListeners() {
-        elements.themeToggle.addEventListener('click', () => this.toggleTheme());
-    }
-}
+// Theme Management - Using ThemeManager from theme.js
+const themeManager = new ThemeManager();
 
 // Mobile Menu Management
 class MobileMenuManager {
