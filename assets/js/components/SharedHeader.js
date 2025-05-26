@@ -117,27 +117,19 @@ export class SharedHeader {
     }
     
     initializeTheme() {
-        // This will be handled by theme.js
-        if (!window.themeManager) {
-            import('../utils/theme.js').then(module => {
+        // Import the ThemeManager module
+        import('../utils/theme.js').then(module => {
+            // If themeManager doesn't exist yet, create it
+            if (!window.themeManager) {
                 window.themeManager = new module.ThemeManager();
-                
-                // Update theme icon based on current theme
-                const updateThemeIcon = () => {
-                    const themeIcon = document.querySelector('.theme-icon');
-                    if (themeIcon) {
-                        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                        themeIcon.textContent = isDark ? '🌙' : '☀️';
-                    }
-                };
-                
-                // Initial update
-                updateThemeIcon();
-                
-                // Listen for theme changes
-                document.addEventListener('themeChanged', updateThemeIcon);
-            });
-        }
+            } else {
+                // If themeManager already exists, reinitialize it
+                window.themeManager.initialize();
+            }
+            
+            // Dispatch an event to notify that theme has been initialized
+            document.dispatchEvent(new CustomEvent('themeInitialized'));
+        });
     }
 }
 

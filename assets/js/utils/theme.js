@@ -59,6 +59,11 @@ export class ThemeManager {
         localStorage.setItem('theme', this.theme);
         this.applyTheme();
         this.updateThemeIcon();
+        
+        // Dispatch a theme changed event for other components to listen to
+        document.dispatchEvent(new CustomEvent('themeChanged', { 
+            detail: { theme: this.theme } 
+        }));
     }
 
     updateThemeIcon() {
@@ -94,8 +99,15 @@ export class ThemeManager {
 document.addEventListener('DOMContentLoaded', () => {
     if (!window.themeManager) {
         window.themeManager = new ThemeManager();
+    } else {
+        // Re-initialize in case elements were added dynamically
+        window.themeManager.initialize();
     }
-    
-    // Re-initialize in case elements were added dynamically
-    window.themeManager.initialize();
+});
+
+// Listen for theme initialization events from other components
+document.addEventListener('themeInitialized', () => {
+    if (window.themeManager) {
+        window.themeManager.initialize();
+    }
 });

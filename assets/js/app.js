@@ -25,7 +25,6 @@ const AppState = {
         vibration: true
     },
     isTracking: false,
-    theme: localStorage.getItem('theme') || 'dark',
     notifications: {
         enabled: false,
         sound: true,
@@ -41,8 +40,6 @@ const elements = {
     sleepScore: document.querySelector('.score'),
     alarmTime: document.querySelector('.alarm-time'),
     alarmStatus: document.querySelector('.alarm-status'),
-    themeToggle: document.getElementById('themeToggle'),
-    themeIcon: document.querySelector('.theme-icon'),
     menuToggle: document.getElementById('menuToggle'),
     navLinks: document.querySelector('.nav-links')
 };
@@ -526,7 +523,6 @@ class App {
     constructor() {
         this.sleepTracker = new SleepTracker();
         this.alarmManager = new AlarmManager();
-        this.themeManager = new ThemeManager();
         this.sleepHistory = new SleepHistory();
         this.sleepStreak = new SleepStreak();
         
@@ -596,10 +592,6 @@ function updateSleepHistory() {
 
 // Initialize the app when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Ensure theme is applied immediately
-    if (themeManager) {
-        themeManager.initialize();
-    }
     app.initializeApp();
 });
 
