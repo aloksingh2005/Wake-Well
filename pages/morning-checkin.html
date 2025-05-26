@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morning Check-in - WakeWell</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/morning-checkin.css">
+    <link rel="stylesheet" href="../assets/css/tags.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="app-container">
+        <nav class="main-nav">
+            <div class="nav-brand">WakeWell</div>
+            <div class="nav-controls">
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle light/dark theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <section class="morning-checkin-card">
+                <h1>🌅 Good Morning!</h1>
+                <p class="subtitle">How did you sleep?</p>
+
+                <!-- Mood Selection -->
+                <div class="mood-section">
+                    <h2>How are you feeling?</h2>
+                    <div class="mood-picker">
+                        <button class="mood-btn" data-mood="energized" data-emoji="😄">
+                            <span class="emoji">😄</span>
+                            <span class="label">Energized</span>
+                        </button>
+                        <button class="mood-btn" data-mood="calm" data-emoji="😌">
+                            <span class="emoji">😌</span>
+                            <span class="label">Calm</span>
+                        </button>
+                        <button class="mood-btn" data-mood="okay" data-emoji="🙂">
+                            <span class="emoji">🙂</span>
+                            <span class="label">Okay</span>
+                        </button>
+                        <button class="mood-btn" data-mood="groggy" data-emoji="😴">
+                            <span class="emoji">😴</span>
+                            <span class="label">Groggy</span>
+                        </button>
+                        <button class="mood-btn" data-mood="irritated" data-emoji="😠">
+                            <span class="emoji">😠</span>
+                            <span class="label">Irritated</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sleep Quality Rating -->
+                <div class="sleep-rating-section">
+                    <h2>Rate your sleep quality</h2>
+                    <div class="star-rating">
+                        <button class="star-btn" data-rating="1">⭐</button>
+                        <button class="star-btn" data-rating="2">⭐</button>
+                        <button class="star-btn" data-rating="3">⭐</button>
+                        <button class="star-btn" data-rating="4">⭐</button>
+                        <button class="star-btn" data-rating="5">⭐</button>
+                    </div>
+                    <p class="rating-label">Tap to rate</p>
+                </div>
+
+                <!-- Sleep Tags -->
+                <div class="tags-section">
+                    <h2>Add tags</h2>
+                    <div class="tags-container">
+                        <button class="tag-btn" data-tag="Dream">💭 Dream</button>
+                        <button class="tag-btn" data-tag="Restless">🔄 Restless</button>
+                        <button class="tag-btn" data-tag="Deep">💤 Deep Sleep</button>
+                        <button class="tag-btn" data-tag="Interrupted">⚡ Interrupted</button>
+                        <button class="tag-btn" data-tag="Nightmare">👻 Nightmare</button>
+                        <button class="tag-btn" data-tag="Refreshed">✨ Refreshed</button>
+                    </div>
+                </div>
+
+                <!-- Journal Notes -->
+                <div class="journal-section">
+                    <h2>Notes</h2>
+                    <textarea id="journalNotes" 
+                              placeholder="Any dreams, thoughts, or things to remember? (optional)"
+                              maxlength="500"></textarea>
+                    <div class="char-count">0/500</div>
+                </div>
+
+                <!-- Voice Note (Optional) -->
+                <div class="voice-note-section">
+                    <button id="recordVoiceNote" class="voice-btn">
+                        🎤 Record Voice Note
+                    </button>
+                    <div id="voiceNoteStatus" class="voice-status"></div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="saveCheckin" class="btn-primary">Save Check-in</button>
+                    <button id="skipCheckin" class="btn-secondary">Skip for now</button>
+                </div>
+            </section>
+
+            <!-- Sleep Summary (if available) -->
+            <section class="sleep-summary-card">
+                <h2>Last Night's Sleep</h2>
+                <div class="sleep-stats">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Sleep Journal Section -->
+            <section class="journal-section">
+                <h2>Sleep Journal</h2>
+                <div class="journal-form">
+                    <!-- Existing journal form elements -->
+                </div>
+                
+                <!-- Smart Tag Suggestions -->
+                <div id="tagSuggestions" class="tag-suggestions-container">
+                    <!-- Will be populated by TagSuggestions component -->
+                </div>
+                
+                <div class="applied-tags">
+                    <h3>Applied Tags</h3>
+                    <div id="appliedTagsList" class="tags-list">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Utils -->
+    <script type="module" src="../assets/js/utils/loading.js"></script>
+    <script type="module" src="../assets/js/utils/toast.js"></script>
+    
+    <!-- Components -->
+    <script type="module" src="../assets/js/components/SharedHeader.js"></script>
+    
+    <!-- Morning Check-in Logic -->
+    <script type="module" src="../assets/js/morning-checkin.js"></script>
+</body>
+</html>

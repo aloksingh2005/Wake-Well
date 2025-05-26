@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WakeWell - Smart Alarm Clock</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+    <meta name="theme-color" content="#4299e1">
+    <script type="module" src="assets/js/components/SharedHeader.js"></script>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="app-container">
+        <!-- Main Navigation -->
+        <nav class="main-nav">
+            <div class="nav-brand">WakeWell</div>
+            <div class="nav-controls">
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle light/dark theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                </button>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active">Home</a>
+                <a href="pages/alarm.html">Alarm</a>
+                <a href="pages/tracking.html">Sleep</a>
+                <a href="pages/reports.html">Reports</a>
+                <a href="pages/settings.html">Settings</a>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Sleep Score Card -->
+            <section class="sleep-score-card">
+                <h2>Sleep Score</h2>
+                <div class="score-circle">
+                    <span class="score">85</span>
+                </div>
+                <p class="score-description">Great sleep last night!</p>
+            </section>
+
+            <!-- Sleep Streak Card -->
+            <section class="streak-card">
+                <div class="streak-header">
+                    <h2>Sleep Streak</h2>
+                    <div class="streak-badge" id="streakBadge">
+                        <span class="streak-flame">🔥</span>
+                        <span class="streak-count">5</span>
+                    </div>
+                </div>
+                <div class="streak-progress">
+                    <div class="progress-text">
+                        <span>Weekly Goal: 5/7 Quality Nights</span>
+                        <span class="progress-percent">71%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 71%"></div>
+                    </div>
+                </div>
+                <div class="streak-days" id="streakDays">
+                    <!-- Will be filled by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Next Alarm Card -->
+            <section class="alarm-card">
+                <h2>Next Alarm</h2>
+                <div class="alarm-time">06:30 AM</div>
+                <div class="alarm-status">Smart Wake: ON</div>
+            </section>
+
+            <!-- Sleep Summary Card -->
+            <section class="sleep-summary-card">
+                <h2>Last Night's Sleep</h2>
+                <div class="sleep-stats">
+                    <div class="stat">
+                        <span class="label">Duration</span>
+                        <span class="value">7h 30m</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Quality</span>
+                        <span class="value">Good</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sleep History Section -->
+            <section class="sleep-history">
+                <h2>Sleep History</h2>
+                <div id="sleepHistoryContainer">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-btn" id="startSleepBtn">
+                Start Sleep Tracking
+            </button>
+        </nav>
+    </div>
+
+    <!-- Utils -->
+    <script type="module" src="assets/js/utils/loading.js"></script>
+    <script type="module" src="assets/js/utils/toast.js"></script>
+    
+    <!-- Components -->
+    <script type="module" src="assets/js/components/SleepHistory.js"></script>
+    
+    <!-- Main App -->
+    <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+/* Tracking Page Specific Styles */
+
+/* Timer Display */
+.timer-display {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    color: var(--text-primary);
+    margin: var(--spacing-lg) 0;
+    font-family: monospace;
+}
+
+.timer-status {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-md);
+}
+
+/* Quality Indicators */
+.quality-indicators {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.indicator {
+    text-align: center;
+    padding: var(--spacing-md);
+    background-color: var(--background-color);
+    border-radius: var(--border-radius-md);
+    transition: all 0.3s ease;
+}
+
+.indicator:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.indicator-icon {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.indicator-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.indicator-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Graph Container */
+.graph-container {
+    height: 200px;
+    margin: var(--spacing-md) 0;
+    position: relative;
+}
+
+/* Tips Container */
+.tips-container {
+    display: grid;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.tip {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--spacing-md);
+    background-color: var(--background-color);
+    border-radius: var(--border-radius-md);
+    transition: all 0.3s ease;
+}
+
+.tip:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-sm);
+}
+
+.tip-icon {
+    font-size: 1.5rem;
+    margin-right: var(--spacing-md);
+}
+
+.tip-content h3 {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.tip-content p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Tracking Card */
+.tracking-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.tracking-card h2 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.2rem;
+}
+
+/* Active Tracking State */
+.tracking-active .timer-display {
+    color: var(--primary-color);
+}
+
+.tracking-active .timer-status {
+    color: var(--success-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .quality-indicators {
+        grid-template-columns: 1fr;
+    }
+    
+    .timer-display {
+        font-size: 2.5rem;
+    }
+    
+    .tip {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .tip-icon {
+        margin-right: 0;
+        margin-bottom: var(--spacing-sm);
+    }
+} 

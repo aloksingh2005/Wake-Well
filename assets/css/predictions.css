@@ -1,0 +1,179 @@
+/* Sleep Prediction Preview Styles */
+.prediction-preview {
+    animation: slideIn 0.3s ease;
+}
+
+.prediction-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+}
+
+.confidence-badge {
+    font-size: 0.9rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-full);
+    background: var(--success-light);
+    color: var(--success-dark);
+}
+
+.confidence-badge.medium {
+    background: var(--warning-light);
+    color: var(--warning-dark);
+}
+
+.confidence-badge.low {
+    background: var(--error-light);
+    color: var(--error-dark);
+}
+
+.prediction-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.prediction-stat {
+    text-align: center;
+    padding: var(--spacing-md);
+    background: var(--background-secondary);
+    border-radius: var(--border-radius-lg);
+    transition: transform 0.2s ease;
+}
+
+.prediction-stat:hover {
+    transform: translateY(-2px);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.quality-value {
+    color: var(--success);
+}
+
+.quality-value.fair {
+    color: var(--warning);
+}
+
+.quality-value.poor {
+    color: var(--error);
+}
+
+.prediction-insights {
+    margin-bottom: var(--spacing-md);
+}
+
+.insight-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    background: var(--background-secondary);
+    border-radius: var(--border-radius-md);
+    animation: fadeIn 0.3s ease;
+}
+
+.insight-card.positive {
+    border-left: 4px solid var(--success);
+}
+
+.insight-card.negative {
+    border-left: 4px solid var(--error);
+}
+
+.insight-card.neutral {
+    border-left: 4px solid var(--info);
+}
+
+.insight-icon {
+    font-size: 1.2rem;
+}
+
+.insight-content {
+    flex: 1;
+}
+
+.insight-title {
+    font-weight: 500;
+    margin-bottom: var(--spacing-xs);
+}
+
+.insight-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.prediction-tips {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.tip-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Loading State */
+.prediction-preview.loading .prediction-stats,
+.prediction-preview.loading .prediction-insights,
+.prediction-preview.loading .prediction-tips {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.prediction-preview.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}

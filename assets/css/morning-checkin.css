@@ -1,0 +1,275 @@
+/* Morning Check-in Styles */
+
+.morning-checkin-card {
+    background: var(--card-background);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    animation: slideUp 0.3s ease;
+}
+
+.morning-checkin-card h1 {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--primary-color);
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xl);
+    font-size: 1.1rem;
+}
+
+/* Mood Picker */
+.mood-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.mood-picker {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.mood-btn {
+    background: var(--hover-color);
+    border: 2px solid transparent;
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.mood-btn .emoji {
+    font-size: 2rem;
+}
+
+.mood-btn .label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.mood-btn:hover {
+    background: var(--border-color);
+}
+
+.mood-btn.selected {
+    border-color: var(--primary-color);
+    background: rgba(74, 144, 226, 0.1);
+}
+
+/* Star Rating */
+.sleep-rating-section {
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+}
+
+.star-rating {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    margin: var(--spacing-md) 0;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    filter: grayscale(1);
+    opacity: 0.5;
+}
+
+.star-btn:hover {
+    transform: scale(1.1);
+}
+
+.star-btn.selected {
+    filter: none;
+    opacity: 1;
+}
+
+.rating-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Tags */
+.tags-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.tag-btn {
+    background: var(--hover-color);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+}
+
+.tag-btn:hover {
+    background: var(--border-color);
+}
+
+.tag-btn.selected {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Journal Notes */
+.journal-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+#journalNotes {
+    width: 100%;
+    min-height: 120px;
+    background: var(--hover-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    color: var(--text-primary);
+    resize: vertical;
+    margin-top: var(--spacing-sm);
+}
+
+.char-count {
+    text-align: right;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-top: var(--spacing-xs);
+}
+
+/* Voice Note */
+.voice-note-section {
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+}
+
+.voice-btn {
+    background: var(--hover-color);
+    border: none;
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md) var(--spacing-xl);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-primary);
+}
+
+.voice-btn:hover {
+    background: var(--border-color);
+}
+
+.voice-btn.recording {
+    background: var(--danger-color);
+    animation: pulse 1s infinite;
+}
+
+.voice-status {
+    margin-top: var(--spacing-sm);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.btn-primary,
+.btn-secondary {
+    flex: 1;
+    padding: var(--spacing-md);
+    border: none;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-secondary {
+    background: var(--hover-color);
+    color: var(--text-secondary);
+}
+
+.btn-primary:hover {
+    background: #357ABD;
+}
+
+.btn-secondary:hover {
+    background: var(--border-color);
+}
+
+/* Sleep Summary Card */
+.sleep-summary-card {
+    background: var(--card-background);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+}
+
+/* Animations */
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .morning-checkin-card {
+        padding: var(--spacing-md);
+        margin: var(--spacing-sm);
+    }
+
+    .mood-picker {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .star-rating {
+        flex-wrap: wrap;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+    }
+}

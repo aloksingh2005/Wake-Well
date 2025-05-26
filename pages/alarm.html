@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WakeWell - Smart Alarm Clock</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../assets/icons/icon-192x192.png">
+    <meta name="theme-color" content="#4299e1">
+    <script type="module" src="../assets/js/components/SharedHeader.js"></script>
+
+</head>
+<body>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <div class="toast-container" id="toastContainer"></div>
+
+<main class="main-content">
+            <!-- Time Picker Card -->
+            <section class="alarm-settings-card">
+                <h2>Set Alarm Time</h2>
+                <div class="time-picker">
+                    <input type="time" id="alarmTime" value="06:30" class="time-input">
+                </div>
+            </section>
+
+            <!-- Smart Wake Settings -->
+            <section class="alarm-settings-card">
+                <h2>Smart Wake Settings</h2>
+                <div class="setting-item">
+                    <label class="switch">
+                        <input type="checkbox" id="smartWakeToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <div class="setting-info">
+                        <h3>Smart Wake</h3>
+                        <p>Wake up during light sleep phase</p>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label class="switch">
+                        <input type="checkbox" id="vibrationToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <div class="setting-info">
+                        <h3>Vibration</h3>
+                        <p>Vibrate with alarm sound</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sound Selection -->
+            <section class="alarm-settings-card">
+                <h2>Alarm Sound</h2>
+                <div class="sound-grid">
+                    <div class="sound-option" data-sound="gentle">
+                        <div class="sound-icon">🎵</div>
+                        <span>Gentle</span>
+                    </div>
+                    <div class="sound-option" data-sound="nature">
+                        <div class="sound-icon">🌿</div>
+                        <span>Nature</span>
+                    </div>
+                    <div class="sound-option" data-sound="bell">
+                        <div class="sound-icon">🔔</div>
+                        <span>Bell</span>
+                    </div>
+                    <div class="sound-option" data-sound="chime">
+                        <div class="sound-icon">🎶</div>
+                        <span>Chime</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Repeat Settings -->
+            <section class="alarm-settings-card">
+                <h2>Repeat</h2>
+                <div class="repeat-grid">
+                    <label class="day-option">
+                        <input type="checkbox" value="mon">
+                        <span>Mon</span>
+                    </label>
+                    <label class="day-option">
+                        <input type="checkbox" value="tue">
+                        <span>Tue</span>
+                    </label>
+                    <label class="day-option">
+                        <input type="checkbox" value="wed">
+                        <span>Wed</span>
+                    </label>
+                    <label class="day-option">
+                        <input type="checkbox" value="thu">
+                        <span>Thu</span>
+                    </label>
+                    <label class="day-option">
+                        <input type="checkbox" value="fri">
+                        <span>Fri</span>
+                    </label>
+                    <label class="day-option">
+                        <input type="checkbox" value="sat">
+                        <span>Sat</span>
+                    </label>
+                    <label class="day-option">
+                        <input type="checkbox" value="sun">
+                        <span>Sun</span>
+                    </label>
+                </div>
+            </section>
+        </main>
+
+    <script type="module" src="../assets/js/app.js"></script>
+
+</body>
+</html>

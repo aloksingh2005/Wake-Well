@@ -1,0 +1,95 @@
+{
+    "name": "WakeWell - Smart Sleep Tracker",
+    "short_name": "WakeWell",
+    "description": "A smart alarm and sleep analysis application",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#1a1a1a",
+    "theme_color": "#4A90E2",
+    "icons": [
+        {
+            "src": "assets/icons/icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icons/icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icons/icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icons/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icons/icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icons/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "portrait",
+    "categories": ["health", "lifestyle", "productivity"],
+    "screenshots": [
+        {
+            "src": "assets/screenshots/home.png",
+            "sizes": "1080x1920",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/screenshots/alarm.png",
+            "sizes": "1080x1920",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/screenshots/tracking.png",
+            "sizes": "1080x1920",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/screenshots/reports.png",
+            "sizes": "1080x1920",
+            "type": "image/png"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Set Alarm",
+            "short_name": "Alarm",
+            "description": "Set a new alarm",
+            "url": "/pages/alarm.html",
+            "icons": [{ "src": "assets/icons/alarm.png", "sizes": "192x192" }]
+        },
+        {
+            "name": "Start Tracking",
+            "short_name": "Track",
+            "description": "Start sleep tracking",
+            "url": "/pages/tracking.html",
+            "icons": [{ "src": "assets/icons/tracking.png", "sizes": "192x192" }]
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "lang": "en",
+    "dir": "ltr"
+} 

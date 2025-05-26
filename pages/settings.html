@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WakeWell - Smart Alarm Clock</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../assets/icons/icon-192x192.png">
+    <meta name="theme-color" content="#4299e1">
+    <script type="module" src="../assets/js/components/SharedHeader.js"></script>
+
+</head>
+<body>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <div class="toast-container" id="toastContainer"></div>
+
+<main class="main-content">
+            <!-- Profile Settings -->
+            <section class="settings-card">
+                <h2>Profile Settings</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Enter your name">
+                    </div>
+                    <div class="setting-item">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" min="1" max="120" placeholder="Enter your age">
+                    </div>
+                    <div class="setting-item">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" min="1" max="300" step="0.1" placeholder="Enter your weight">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sleep Goals -->
+            <section class="settings-card">
+                <h2>Sleep Goals</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <label for="targetSleep">Target Sleep Duration (hours)</label>
+                        <input type="number" id="targetSleep" min="4" max="12" step="0.5" placeholder="Enter target hours">
+                    </div>
+                    <div class="setting-item">
+                        <label for="bedtime">Preferred Bedtime</label>
+                        <input type="time" id="bedtime">
+                    </div>
+                    <div class="setting-item">
+                        <label for="wakeup">Preferred Wake-up Time</label>
+                        <input type="time" id="wakeup">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notification Settings -->
+            <section class="settings-card">
+                <h2>Notification Settings</h2>
+                <div class="settings-group">
+                    <div class="setting-item toggle">
+                        <label for="bedtimeReminder">Bedtime Reminder</label>
+                        <label class="switch">
+                            <input type="checkbox" id="bedtimeReminder">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item toggle">
+                        <label for="sleepReport">Daily Sleep Report</label>
+                        <label class="switch">
+                            <input type="checkbox" id="sleepReport">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item toggle">
+                        <label for="goalReminder">Goal Reminders</label>
+                        <label class="switch">
+                            <input type="checkbox" id="goalReminder">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sound Settings -->
+            <section class="settings-card">
+                <h2>Sound Settings</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <label for="alarmVolume">Alarm Volume</label>
+                        <input type="range" id="alarmVolume" min="0" max="100" value="80">
+                    </div>
+                    <div class="setting-item">
+                        <label for="snoozeDuration">Snooze Duration (minutes)</label>
+                        <select id="snoozeDuration">
+                            <option value="5">5 minutes</option>
+                            <option value="10">10 minutes</option>
+                            <option value="15">15 minutes</option>
+                            <option value="20">20 minutes</option>
+                            <option value="30">30 minutes</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Management -->
+            <section class="settings-card">
+                <h2>Data Management</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <button id="exportData" class="action-btn">
+                            <span class="btn-icon">📤</span>
+                            Export All Data
+                        </button>
+                    </div>
+                    <div class="setting-item">
+                        <button id="clearData" class="action-btn danger">
+                            <span class="btn-icon">🗑️</span>
+                            Clear All Data
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About -->
+            <section class="settings-card">
+                <h2>About</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <p class="version">Version 1.0.0</p>
+                        <p class="copyright">© 2024 WakeWell. All rights reserved.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    <script type="module" src="../assets/js/app.js"></script>
+
+</body>
+</html>

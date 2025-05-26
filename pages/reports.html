@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WakeWell - Smart Alarm Clock</title>    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/reports.css">
+    <link rel="stylesheet" href="../assets/css/tags.css">
+    <link rel="stylesheet" href="../assets/css/predictions.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../assets/icons/icon-192x192.png">
+    <meta name="theme-color" content="#4299e1">
+    <script type="module" src="../assets/js/components/SharedHeader.js"></script>
+
+</head>
+<body>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <div class="toast-container" id="toastContainer"></div>
+
+<main class="main-content">
+            <!-- Time Range Selector -->
+            <section class="reports-card">
+                <h2>Time Range</h2>
+                <div class="range-selector">
+                    <button class="range-btn active" data-range="week">Week</button>
+                    <button class="range-btn" data-range="month">Month</button>
+                    <button class="range-btn" data-range="year">Year</button>
+                </div>
+            </section>
+
+            <!-- Tag Filter Section -->
+            <section class="reports-card tag-filter-section">
+                <div class="filter-header">
+                    <h2>Filter by Tags</h2>
+                    <button id="clearFilters" class="clear-filters-btn" disabled>
+                        Clear Filters
+                    </button>
+                </div>
+                <div class="active-filters" id="activeFilters">
+                    <!-- Selected tag filters will appear here -->
+                </div>
+                <div class="tag-selector" id="tagSelector">
+                    <!-- Available tags will be populated here -->
+                </div>
+                <div class="filter-info" id="filterInfo">
+                    <!-- Filter stats will appear here -->
+                </div>
+            </section>
+
+            <!-- Sleep Prediction Preview -->
+            <section class="reports-card prediction-preview" id="predictionPreview" style="display: none;">
+                <div class="prediction-header">
+                    <h2>Sleep Prediction</h2>
+                    <div class="confidence-badge" id="confidenceBadge">
+                        High Confidence
+                    </div>
+                </div>
+                <div class="prediction-stats">
+                    <div class="prediction-stat">
+                        <div class="stat-label">Expected Quality</div>
+                        <div class="stat-value quality-value" id="predictedQuality">75%</div>
+                    </div>
+                    <div class="prediction-stat">
+                        <div class="stat-label">Expected Duration</div>
+                        <div class="stat-value duration-value" id="predictedDuration">7h 30m</div>
+                    </div>
+                </div>
+                <div class="prediction-insights" id="predictionInsights">
+                    <!-- Insights will be populated here -->
+                </div>
+                <div class="prediction-tips" id="predictionTips">
+                    <!-- Tips will be populated here -->
+                </div>
+            </section>
+
+            <!-- Tag Correlations Section -->
+            <section class="reports-card">
+                <h2>Tag Insights</h2>
+                <p class="section-description">
+                    Discover how different factors affect your sleep quality
+                </p>
+                <div id="tagCorrelations" class="tag-correlation-container">
+                    <!-- Tag correlation insights will be populated here -->
+                </div>
+            </section>
+
+            <!-- Wake Pattern Clock -->
+            <section class="reports-card wake-pattern-section">
+                <h2>Sleep-Wake Pattern</h2>
+                <div class="wake-pattern-container">
+                    <canvas id="wakePatternClock"></canvas>
+                    <div class="pattern-legend">
+                        <div class="legend-item">
+                            <span class="dot sleep-dot"></span>
+                            <span>Sleep</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="dot wake-dot"></span>
+                            <span>Wake</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Monthly Calendar View -->
+            <section class="reports-card calendar-section">
+                <h2>Sleep Calendar</h2>
+                <div class="calendar-nav">
+                    <button id="prevMonth" class="calendar-nav-btn">←</button>
+                    <h3 id="currentMonth">May 2025</h3>
+                    <button id="nextMonth" class="calendar-nav-btn">→</button>
+                </div>
+                <div class="calendar-grid" id="sleepCalendar">
+                    <div class="calendar-header">
+                        <span>Sun</span>
+                        <span>Mon</span>
+                        <span>Tue</span>
+                        <span>Wed</span>
+                        <span>Thu</span>
+                        <span>Fri</span>
+                        <span>Sat</span>
+                    </div>
+                    <div class="calendar-days" id="calendarDays">
+                        <!-- Days will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="calendar-legend">
+                    <span class="legend-item">
+                        <span class="score-dot excellent"></span>
+                        Excellent
+                    </span>
+                    <span class="legend-item">
+                        <span class="score-dot good"></span>
+                        Good
+                    </span>
+                    <span class="legend-item">
+                        <span class="score-dot fair"></span>
+                        Fair
+                    </span>
+                    <span class="legend-item">
+                        <span class="score-dot poor"></span>
+                        Poor
+                    </span>
+                </div>
+            </section>
+
+            <!-- Sleep Overview -->
+            <section class="reports-card">
+                <h2>Sleep Overview</h2>
+                <div class="overview-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="avgDuration">0h</div>
+                        <div class="stat-label">Avg. Duration</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="avgQuality">0%</div>
+                        <div class="stat-label">Avg. Quality</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="bestSleep">0h</div>
+                        <div class="stat-label">Best Sleep</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sleep Charts -->
+            <div class="charts-grid">
+                <!-- Sleep Duration Trend -->
+                <section class="reports-card">
+                    <h2>Sleep Duration Trend</h2>
+                    <canvas id="durationChart"></canvas>
+                </section>
+
+                <!-- Sleep Quality Score -->
+                <section class="reports-card">
+                    <h2>Sleep Quality Score</h2>
+                    <canvas id="qualityChart"></canvas>
+                </section>
+
+                <!-- Sleep Phases Distribution -->
+                <section class="reports-card">
+                    <h2>Sleep Phases</h2>
+                    <canvas id="phasesChart"></canvas>
+                </section>
+
+                <!-- Mood Correlation -->
+                <section class="reports-card">
+                    <h2>Sleep & Mood Correlation</h2>
+                    <canvas id="moodCorrelationChart"></canvas>
+                </section>
+            </div>
+
+            <!-- Sleep Insights -->
+            <section class="reports-card">
+                <h2>Sleep Insights</h2>
+                <div class="insights-container" id="sleepInsights">
+                    <!-- Insights will be dynamically added here -->
+                </div>
+            </section>
+
+            <!-- Export Options -->
+            <section class="reports-card">
+                <h2>Export Data</h2>
+                <div class="export-buttons">
+                    <button id="exportPDF" class="btn btn-primary">Export as PDF</button>
+                    <button id="exportCSV" class="btn btn-secondary">Export as CSV</button>
+                </div>
+            </section>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script type="module" src="../assets/js/reports.js"></script>
+    </body>
+</html>
